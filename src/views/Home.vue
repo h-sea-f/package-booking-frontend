@@ -1,7 +1,12 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <div>
+      <router-link to="/boss">老板</router-link>
+    </div>
+    <div>
+      <router-link to="/customer">预约取件</router-link>
+    </div>
+    <router-view/>
   </div>
 </template>
 
