@@ -38,6 +38,10 @@ export default new Vuex.Store({
     },
     add({dispatch},item){
       axios.post(url,item).then(response => dispatch('getItems'))
+    },
+    ordered({dispatch},item){
+      axios.patch(url+'/'+item.id,item).then(response =>{dispatch('getItems')} )
+
     }
   }
 })

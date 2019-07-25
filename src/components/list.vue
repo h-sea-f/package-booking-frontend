@@ -6,6 +6,7 @@
       </template>
       <template slot="operation" slot-scope="text, record">
         <a-popconfirm
+          v-if="dataSource.length"
           title="Sure to delete?"
           @confirm="() => onDelete(record.key)">
           <a href="javascript:;">Delete</a>
@@ -16,7 +17,6 @@
 </template>
 
 <script>
-import EditableCell from './cell';
 const columns = [{
   title: '运单号',
     dataIndex: 'id',
@@ -37,15 +37,24 @@ const columns = [{
     title: '预约时间',
     dataIndex: 'orderTime',
   width:150
-  }, {title: '操作', dataIndex: '', key: 'x', scopedSlots: { customRender: 'action' } }];
+  }, {title: '操作', dataIndex: 'finish'}];
 export default {
   name: 'list',
   components: {
-    EditableCell
+
   },
   computed: {
     itemShow: function () {
-      return this.$store.getters.getShowItems
+      let newList = this.$store.getters.getShowItems;
+      for(let i=0;i<newList.length;i++){
+        if(newList[i].status!=='已取件'){
+          newList[i].finish='完成';
+        }
+      }
+      return newList;
+      // return newList.map(i =>{if(i.status !== '已完成') {
+      //   i.finish = '完成';
+      // }})
     }
   },
   data () {

@@ -1,15 +1,19 @@
 <template>
   <div>
     <div>
-      <a-input placeholder="输入订单号"/>
+      <a-input v-model="id" placeholder="输入订单号"/>
     </div>
     <div>
-      <a-time-picker :open.sync="open2">
-        <a-button slot="addon" size="large" type="primary" @click="handleClose">Ok</a-button>
-      </a-time-picker>
+      <a-date-picker
+        showTime
+        format="YYYY-MM-DD HH:mm:ss"
+        placeholder="Select Time"
+        @change="onChange"
+        @ok="onOk"
+      />
     </div>
     <div>
-      <a-button type="primary">预约</a-button>
+      <a-button type="primary" @click="ordered">预约</a-button>
     </div>
   </div>
 </template>
@@ -19,14 +23,25 @@ export default {
   name: 'customer',
   data () {
     return {
-      id: Number,
-      orderTime: 0,
-      open2: false,
+      id: "",
+      orderTime: 0
     }
   },
   methods: {
-    handleClose () {
-      this.open2 = false
+    onChange(value, dateString) {
+      console.log('Selected Time: ', value);
+      console.log('Formatted Selected Time: ', dateString);
+      this.orderTime = value.valueOf();
+    },
+    onOk(value) {
+      console.log('onOk: ', value);
+      this.orderTime = value.valueOf();
+    },
+    ordered(){
+      console.log(this.orderTime);
+      this.$store.dispatch('ordered',{id:this.id,orderTime:this.orderTime});
+      this.id="";
+      this.$message.success('预约成功');
     }
   }
 }
