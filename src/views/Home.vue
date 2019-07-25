@@ -4,7 +4,7 @@
       <router-link to="/boss">老板</router-link>
     </div>
     <div>
-      <router-link to="/customer">预约取件</router-link>
+      <router-link to="/order">预约取件</router-link>
     </div>
     <router-view/>
   </div>
@@ -17,7 +17,7 @@ import HelloWorld from '@/components/HelloWorld.vue'
 export default {
   name: 'home',
   components: {
-    HelloWorld
+
   }
 }
 </script>
