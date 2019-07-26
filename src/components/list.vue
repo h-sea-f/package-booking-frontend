@@ -1,18 +1,23 @@
 <template>
   <div>
-    <a-table bordered :dataSource="itemShow" :columns="columns">
-      <template slot="name" slot-scope="text, record">
-        <editable-cell :text="text" @change="onCellChange(record.key, 'name', $event)"/>
-      </template>
-      <template slot="operation" slot-scope="text, record">
-        <a-popconfirm
-          v-if="dataSource.length"
-          title="Sure to delete?"
-          @confirm="() => onDelete(record.key)">
-          <a href="javascript:;">Delete</a>
-        </a-popconfirm>
-      </template>
-    </a-table>
+    <table>
+      <tr>
+        <th>运单号</th>
+        <th>收件人</th>
+        <th>电话</th>
+        <th>状态</th>
+        <th>预约时间</th>
+        <th>操作</th>
+      </tr>
+      <tr v-for="item in itemShow">
+        <td>{{item.id}}</td>
+        <td>{{item.consignee}}</td>
+        <td>{{item.phoneNumber}}</td>
+        <td>{{item.status}}</td>
+        <td>{{item.orderTime}}</td>
+        <td v-show="item.unfinish"><button @click="finished(item.id)">完成</button></td>
+      </tr>
+    </table>
   </div>
 </template>
 
@@ -47,8 +52,8 @@ export default {
     itemShow: function () {
       let newList = this.$store.getters.getShowItems;
       for(let i=0;i<newList.length;i++){
-        if(newList[i].status!=='已取件'){
-          newList[i].finish='完成';
+        if(newList[i].status!=='已完成'){
+          newList[i].unfinish=true;
         }
       }
       return newList;
@@ -66,6 +71,9 @@ export default {
   methods: {
     test(id){
       alert(id);
+    },
+    finished(id){
+      this.$store.dispatch('finished',id);
     }
   }
 }
